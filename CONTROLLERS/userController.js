@@ -58,9 +58,17 @@ exports.deleteMe=catchAsync(async(req,res,next)=>{
 })
 
 exports.affectRoleToUser=catchAsync(async(req,res,next)=>{
-    await User.findByIdAndUpdate(req.body.dedicated_user_id,{role:req.body.role});
+    const predifined_roles=['user','manager','admin'];
+    console.log(req)
+    if(!predifined_roles.includes(req.body.role)){
+        return next(new AppError(' there is no role like this ',403))
+    }
+    const dedicated_user= await User.findByIdAndUpdate(req.body.dedicated_user_id,{role:req.body.role});
     res.status(204).json({
         status:'success',
+        data:{
+            user:dedicated_user
+        }
     })
 })
 
