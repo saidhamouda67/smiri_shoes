@@ -70,6 +70,16 @@ exports.login=catchAsync(async (req,res,next)=>{
 
 })
 
+
+exports.logout=catchAsync(async(req,res,next)=>{
+    res.cookie('jwt','loggedout',{
+        expires: new Date(Date.now()+10*1000),
+        httpOnly:true
+    })
+    res.status(200).json({
+        status: 'success'
+    })
+})
 exports.protect=catchAsync(async(req,res,next)=>{
     //1)get the token and check if it's there
     let token;

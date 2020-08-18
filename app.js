@@ -5,6 +5,7 @@ const globalErrorHandler=require('./CONTROLLERS/errorController')
 const rateLimit=require('express-rate-limit');
 const app=express();
 const userRouter=require('./routes/userRouters')
+const productRouter=require('./routes/productRouters')
 const helmet=require('helmet');
 const mongoSanitize=require('express-mongo-sanitize');
 const xss=require('xss-clean')
@@ -53,6 +54,7 @@ app.use((req,res,next)=>{
 
 
  app.use('/api/v1/users',userRouter);
+ app.use('/api/v1/products',productRouter);
  app.all('*',(req,res,next)=>{
 
    

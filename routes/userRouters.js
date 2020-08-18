@@ -5,6 +5,7 @@ const userController=require('./../CONTROLLERS/userController')
 const {getAllUsers,getUser,createUser,deleteUser,updateUser}=require('../CONTROLLERS/userController')
 router.post('/signup',authController.signup)
 router.post('/login',authController.login)
+router.get('/logout',authController.protect,authController.logout)
 router.post('/forgot-password',authController.forgotPassword);
 router.patch('/reset-password/:token',authController.resetPassword);
 
