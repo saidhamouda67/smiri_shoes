@@ -37,8 +37,67 @@ exports.AddProductDetails=catchAsync(async(req,res,next)=>{
 
 exports.DeleteRelatedDetails=catchAsync(async (req,res,next)=>{
     const product_id=req.params.id_prod;
-    const product=await Product.findById(product_id);
+    console.log(product_id)
+    const product=new Product({
+        "_id":product_id
+    })
+    console.log("prod",product)
+    try{
     while(details=await ProductDetails.findOneAndDelete({product})){
-        continue;
+        console.log("details",details)
     }
+}catch(error){
+    return next(new AppError(error))
+}
+
+res.status(200).json({
+    status:'success'
+})
+})
+
+
+exports.LinkDetails=catchAsync(async(req,res,next)=>{
+    const id_product=req.params.id_prod;
+    const id_details=req.params.id_details;
+    const details=await ProductDetails.findById(id_details);
+    const alreadyProductId=await details.product._id
+    const dedicated_product=await Product.findById(id_product)
+    const theProduct=await Product.findById(alreadyProductId)
+    console.log('already productId',alreadyProductId)
+    console.log(theProduct)
+    if (!theProduct){
+        details.product=dedicated_product
+        const newDetails=await ProductDetails.findByIdAndUpdate(id_details,details,
+            {
+            new:true,
+            runValidators:true
+        })
+        console.log(details)
+    }else{
+        const newProductDetails=await ProductDetails.create({
+            size:details.size,
+            price:details.price,
+            countInStock:details.countInStock,
+            product:dedicated_product,
+            color:details.color
+        })
+        console.log(newProductDetails)
+    }
+
+    res.status(200).json({
+        status:'success'
+    })
+})
+
+exports.getRelatedDetails=catchAsync(async (req,res,next)=>{
+    const product=await Product.findById(req.params.id_prod)
+    const allProductDetails=await ProductDetails.find({
+        product
+    })
+    res.status(200).json({
+        status:'success',
+        data:{
+            allProductDetails
+        }
+    })
 })
