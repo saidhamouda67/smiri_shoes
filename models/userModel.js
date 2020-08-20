@@ -24,6 +24,18 @@ const userSchema=new mongoose.Schema({
         lowercase:true,
         validate:[validatorLib.isEmail,'respect email properties']
     },
+    phoneNumber:{
+        type:String,
+        required: [true, 'phone number is required'],
+        minlength:8,
+        maxlength:8,
+        validate:{
+            validator:function(inputtxt){
+                var numbers = /^[0-9]+$/;
+                return inputtxt.value.match(numbers)
+            }
+        }
+    },
     photo:String,
     password:{
         type:String,

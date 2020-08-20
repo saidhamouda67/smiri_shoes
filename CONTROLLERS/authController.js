@@ -41,7 +41,8 @@ passwordConfirm:req.body.passwordConfirm,
 address:req.body.address,
 city:req.body.city,
 postalCode:req.body.postalCode,
-country:req.body.country
+country:req.body.country,
+phoneNumber:req.body.phoneNumber
 })
 
 
