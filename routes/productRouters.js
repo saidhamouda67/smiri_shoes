@@ -7,9 +7,11 @@ router.post('/Add-product-details/:id_prod',authController.protect,authControlle
 router.get('/',productController.getAllProducts)
 router.get('/:id',productController.getProduct)
 router.delete('/:id',authController.protect,authController.restrictTo('admin'),productController.DeleteProduct)
+router.patch('/:id',authController.protect,authController.restrictTo('admin','manager'),productController.updateProduct);
 router.delete('/related-details/:id_prod',authController.protect,authController.restrictTo('admin'),productController.DeleteRelatedDetails)
 router.get('/related-details/:id_prod',authController.protect,authController.restrictTo('admin'),productController.getRelatedDetails)
 router.patch('/link/:id_details/:id_prod',authController.protect,authController.restrictTo('admin'),productController.LinkDetails)
+router.patch('/product-details/:id',authController.protect,authController.restrictTo('admin','manager'),productController.updateProductDetails)
 // router.post('/login',authController.login)
 // router.post('/forgot-password',authController.forgotPassword);
 // router.patch('/reset-password/:token',authController.resetPassword);

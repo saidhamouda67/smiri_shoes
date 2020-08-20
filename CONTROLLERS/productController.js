@@ -54,6 +54,39 @@ res.status(200).json({
     status:'success'
 })
 })
+exports.updateProduct=catchAsync(async (req,res,next)=>{
+
+    //1)create error if user posts a password data
+    console.log(req.body);
+    console.log(req.params.id)
+    //3)update product
+    const updatedProduct=await Product.findByIdAndUpdate(req.params.id,req.body,{
+        new: true,runValidators:true
+    });
+    res.status(200).json({
+        status:'success',
+       data:{
+           product:updatedProduct
+       }
+    })
+})
+exports.updateProductDetails=catchAsync(async (req,res,next)=>{
+
+    //create error if user posts a product cuz products modified in the link route
+    if (req.body.product ){
+        return next(new AppError("go to link product details route to modify this"))
+    }
+    //3)update product
+    const updatedProductDetails=await ProductDetails.findByIdAndUpdate(req.params.id,req.body,{
+        new: true,runValidators:true
+    });
+    res.status(200).json({
+        status:'success',
+       data:{
+           productDetails:updatedProductDetails
+       }
+    })
+})
 
 
 exports.LinkDetails=catchAsync(async(req,res,next)=>{
@@ -101,3 +134,4 @@ exports.getRelatedDetails=catchAsync(async (req,res,next)=>{
         }
     })
 })
+
