@@ -23,10 +23,16 @@ const productSchema = new mongoose.Schema({
       enum:['Women','Men','Kids'],
     default:'Men'
   },
+  price: {type: Number, required: true},
   description: { type: String, required: true },
 
   numReviews: { type: Number, default: 0, required: true },
   reviews: [reviewSchema],
+  createdAt:{
+    type:Date,
+    default:Date.now(),
+    select: false 
+}
 });
 
 const productDetailsSchema=new mongoose.Schema({
@@ -36,7 +42,6 @@ product:{ type:mongoose.Schema.ObjectId,
     },    
     size: { type: Number, required: true},
     countInStock : {type: Number, required: true},
-    price: {type: Number, required: true},
     images:[String],
     color: {type: String, required: true},
 
@@ -54,6 +59,7 @@ reviewSchema.pre('save',function(next){
     next();
 
 })
+
 
 module.exports={Product,ProductDetails}
 

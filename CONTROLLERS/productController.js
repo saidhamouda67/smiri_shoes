@@ -23,7 +23,6 @@ exports.AddProductDetails=catchAsync(async(req,res,next)=>{
         product,
         size:req.body.size,
         countInStock:req.body.countInStock,
-        price:req.body.price,
         images:req.body.images,
         color:req.body.color
     })
@@ -134,4 +133,8 @@ exports.getRelatedDetails=catchAsync(async (req,res,next)=>{
         }
     })
 })
+
+exports.getAllProductDetails=factory.getAll(ProductDetails);
+
+
 
