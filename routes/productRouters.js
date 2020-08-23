@@ -1,14 +1,15 @@
+const upload=require('../utils/uploadImages')
 const express=require('express');
 const router=express.Router();
 const authController=require('./../CONTROLLERS/authController')
 const productController=require('./../CONTROLLERS/productController')
-router.post('/Add-Product',authController.protect,authController.restrictTo('admin','manager'),productController.AddProduct)
+router.post('/Add-Product',authController.protect,authController.restrictTo('admin','manager'),upload.array('productImages',4),productController.AddProduct)
 router.post('/Add-product-details/:id_prod',authController.protect,authController.restrictTo('admin','manager'),productController.AddProductDetails)
 router.get('/',productController.getAllProducts)
 router.get('/product-details',authController.protect,authController.restrictTo('admin','manager'),productController.getAllProductDetails)
 router.get('/:id',productController.getProduct)
 router.delete('/:id',authController.protect,authController.restrictTo('admin'),productController.DeleteProduct)
-router.patch('/:id',authController.protect,authController.restrictTo('admin','manager'),productController.updateProduct);
+router.patch('/:id',authController.protect,authController.restrictTo('admin','manager'),upload.array('productImages',4),productController.updateProduct);
 router.delete('/related-details/:id_prod',authController.protect,authController.restrictTo('admin'),productController.DeleteRelatedDetails)
 router.get('/related-details/:id_prod',authController.protect,authController.restrictTo('admin'),productController.getRelatedDetails)
 router.patch('/link/:id_details/:id_prod',authController.protect,authController.restrictTo('admin'),productController.LinkDetails)

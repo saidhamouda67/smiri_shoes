@@ -21,6 +21,13 @@ exports.deleteOne=Model=>catchAsync( async (req,res,next)=>{
 })
 
 exports.updateOne= Model=> catchAsync(async (req,res,next)=>{
+    if(req.files){
+        let images=[]
+        req.files.forEach(element => {
+            images.push(element.path)
+        });
+        req.body.images=images;
+    }
     const doc=await Model.findByIdAndUpdate(req.params.id, req.body,
         {
             new:true,
@@ -42,7 +49,16 @@ exports.updateOne= Model=> catchAsync(async (req,res,next)=>{
 
 
 exports.createOne=Model=>catchAsync(async (req,res,next)=>{
+    if(req.files){
+        let images=[]
+        req.files.forEach(element => {
+            images.push(element.path)
+        });
+        req.body.images=images;
+    }
     const newDoc=  await Model.create(req.body);
+
+    
     res.status(201).json({
         status:'success',
         data:{

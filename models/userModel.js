@@ -30,9 +30,9 @@ const userSchema=new mongoose.Schema({
         minlength:8,
         maxlength:8,
         validate:{
-            validator:function(inputtxt){
+            validator:function(value){
                 var numbers = /^[0-9]+$/;
-                return inputtxt.value.match(numbers)
+                return value.match(numbers)
             }
         }
     },

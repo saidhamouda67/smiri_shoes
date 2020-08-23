@@ -28,6 +28,7 @@ const productSchema = new mongoose.Schema({
 
   numReviews: { type: Number, default: 0, required: true },
   reviews: [reviewSchema],
+  images:[String],
   createdAt:{
     type:Date,
     default:Date.now(),
@@ -42,7 +43,6 @@ product:{ type:mongoose.Schema.ObjectId,
     },    
     size: { type: Number, required: true},
     countInStock : {type: Number, required: true},
-    images:[String],
     color: {type: String, required: true},
 
 

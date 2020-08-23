@@ -58,6 +58,13 @@ exports.updateProduct=catchAsync(async (req,res,next)=>{
     //1)create error if user posts a password data
     console.log(req.body);
     console.log(req.params.id)
+    if(req.files){
+        let images=[]
+        req.files.forEach(element => {
+            images.push(element.path)
+        });
+        req.body.images=images;
+    }
     //3)update product
     const updatedProduct=await Product.findByIdAndUpdate(req.params.id,req.body,{
         new: true,runValidators:true
