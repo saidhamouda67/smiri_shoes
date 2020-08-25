@@ -6,6 +6,7 @@ const rateLimit=require('express-rate-limit');
 const app=express();
 const userRouter=require('./routes/userRouters')
 const productRouter=require('./routes/productRouters')
+const orderRouter=require('./routes/orderRouters')
 const helmet=require('helmet');
 const mongoSanitize=require('express-mongo-sanitize');
 const xss=require('xss-clean')
@@ -57,6 +58,7 @@ app.use('/uploads',express.static('uploads'))
 
 
  app.use('/api/v1/users',userRouter);
+ app.use('/api/v1/orders',orderRouter);
  app.use('/api/v1/products',productRouter);
  app.all('*',(req,res,next)=>{
 

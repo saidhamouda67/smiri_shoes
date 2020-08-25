@@ -89,18 +89,20 @@ exports.getOne=(Model,populateOptions)=> catchAsync(async (req,res,next)=>{
     })
 
 
-    exports.getAll=Model=>catchAsync(async (req,res,next)=>{
+    exports.getAll=(Model,populateOptions)=>catchAsync(async (req,res,next)=>{
 
 
         let filter={}
-
-        if(req.params.tourId) filter={tour:req.params.tourId}
-        const features=new APIFeatures(Model.find(filter),req.query)
+        if(req.params.id_product) filter={id:req.params.id_product}
+        var theDocument=Model.find(filter)
+        if (populateOptions)
+        theDocument=theDocument.populate(populateOptions);
+        const features=new APIFeatures(theDocument,req.query)
         .filter()
         .sort()
         .limitFields()
         .pagination();
-    
+        
         //EXECUTE THE QUERY
         const doc=await features.query;
     
