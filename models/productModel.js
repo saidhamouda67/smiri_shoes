@@ -21,7 +21,8 @@ const productSchema = new mongoose.Schema({
 ratingsQuantity:{
     type:Number,
     default:0
-},  images:[String],
+},
+images:[String],
   createdAt:{
     type:Date,
     default:Date.now(),

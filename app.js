@@ -5,6 +5,7 @@ const globalErrorHandler=require('./CONTROLLERS/errorController')
 const rateLimit=require('express-rate-limit');
 const app=express();
 const userRouter=require('./routes/userRouters')
+const claimRouter=require('./routes/claimRouters')
 const productRouter=require('./routes/productRouters')
 const orderRouter=require('./routes/orderRouters')
 const helmet=require('helmet');
@@ -60,6 +61,7 @@ app.use('/uploads',express.static('uploads'))
  app.use('/api/v1/users',userRouter);
  app.use('/api/v1/orders',orderRouter);
  app.use('/api/v1/products',productRouter);
+ app.use('/api/v1/claims',claimRouter);
  app.all('*',(req,res,next)=>{
 
    
