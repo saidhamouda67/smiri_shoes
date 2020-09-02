@@ -1,23 +1,8 @@
 const mongoose=require('mongoose')
-const reviewSchema = new mongoose.Schema(
-  {
-    name: { type: String, required: true },
-    loggedInUser: { 
-        type: mongoose.Schema.ObjectId,
-        ref: 'User',
-        required: false
-    },
-    rating: { type: Number, default: 0 },
-    comment: { type: String, required: true },
-  },
-  {
-    timestamps: true,
-  }
-);
+
 const productSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+  name: { type: String, required: true , unique:true},
   brand: { type: String, required: true },
-  rating: { type: Number, default: 0, required: true },
   category: {
       type: String,
       enum:['Women','Men','Kids'],
@@ -26,16 +11,34 @@ const productSchema = new mongoose.Schema({
   price: {type: Number, required: true},
   description: { type: String, required: true },
 
-  numReviews: { type: Number, default: 0, required: true },
-  reviews: [reviewSchema],
-  images:[String],
+  ratingsAverage: {
+    type:Number,
+    default:4.5,
+    min:[1,'min average is 1.0'],
+    max:[5,'max average is 5.0'],
+    set:val=>Math.round(val*10)/10
+},
+ratingsQuantity:{
+    type:Number,
+    default:0
+},  images:[String],
   createdAt:{
     type:Date,
     default:Date.now(),
     select: false 
 }
-});
-
+},
+{
+toJSON: {virtuals:true},
+toObject:{virtuals:true}
+}
+);
+productSchema.index({price: 1})
+productSchema.virtual('reviews',{
+  ref:'Review',
+  foreignField:'product',
+  localField:'_id'
+})
 const productDetailsSchema=new mongoose.Schema({
 product:{ type:mongoose.Schema.ObjectId,
     ref:'Product',
@@ -51,14 +54,7 @@ product:{ type:mongoose.Schema.ObjectId,
 const Product = mongoose.model('Product', productSchema);
 const ProductDetails = mongoose.model('Product_details', productDetailsSchema);
 
-reviewSchema.pre('save',function(next){
-    if (this.loggedInUser){
-        this.name=this.loggedInUser.name;
-        this.loggedInUser=undefined;
-    }
-    next();
 
-})
 
 
 module.exports={Product,ProductDetails}

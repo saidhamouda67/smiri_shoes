@@ -13,8 +13,9 @@ const fileFilter = (req, file, cb) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
       cb(null, true);
     } else {
-        return new AppError('type not okkay');
       cb(null, false);
+
+        return new AppError('type not okkay');
     }
   };
   const upload = multer({

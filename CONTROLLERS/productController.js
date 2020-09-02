@@ -5,7 +5,7 @@ const factory=require('./handlerFactory')
 const {Product,ProductDetails}=require('./../models/productModel')
 
 exports.getAllProducts=factory.getAll(Product);
-exports.getProduct=factory.getOne(Product);
+exports.getProduct=factory.getOne(Product,{path:'reviews'});
 
 exports.AddProduct=factory.createOne(Product)
 exports.DeleteProduct=factory.deleteOne(Product);
