@@ -164,7 +164,7 @@ const hashedToken=crypto
 .createHash('sha256')
 .update(req.params.token)
 .digest('hex');
-
+console.log(hashedToken)
 const user=await User.findOne({passwordResetToken: hashedToken,
     passwordResetExpires:{$gt:Date.now()}
 })

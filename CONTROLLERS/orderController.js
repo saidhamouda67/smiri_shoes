@@ -53,15 +53,11 @@ exports.createOrder=catchAsync(async(req,res,next)=>{
         const orderItems=req.body.orderItems;
         var  itemsPrice=0;
         await asyncForEach(orderItems,async(el)=>{
-            await  ProductDetails.updateOne(
-                {_id: el.product_details},
-                {$inc: { "countInStock" : - el.qty}}
-            )
+           
             const product=await Product.findById(el.product)
             itemsPrice+=(product.price*el.qty);
 
         })
-        console.log(itemsPrice)
         const order=await Order.create({
         user: req.user,
         orderItems:req.body.orderItems,
@@ -113,6 +109,16 @@ exports.deleteMyOrder=catchAsync(async (req,res,next)=>{
 
 exports.confirmDeliveryAndPayment=catchAsync(async (req,res,next)=>{
     const order_id=req.params.order_id
+
+    const theOrder=await Order.findById(order_id)
+    const orderItems=theOrder.orderItems
+
+    await asyncForEach(orderItems,async(el)=>{
+        await  ProductDetails.updateOne(
+            {_id: el.product_details},
+            {$inc: { "countInStock" : - el.qty}}
+        )
+    })
     const order=await Order.updateOne(
         {_id:order_id},
         {"$set":{"isDeliveredAndPaid":true,"deliveredAndPaidAt": Date.now()}}

@@ -15,6 +15,7 @@ const claimSchema = new mongoose.Schema({
 },
 });
 
+
 claimSchema.pre(/^findBy/,function(next){
     
    
@@ -31,8 +32,3 @@ const Claim = mongoose.model('Claim', claimSchema);
 
 
 module.exports=Claim
-
-
-
-
-
