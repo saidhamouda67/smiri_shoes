@@ -36,7 +36,7 @@ exports.getMyOrders=catchAsync(async (req,res,next)=>{
 })
 exports.getMyOrder=catchAsync(async(req,res,next)=>{
     const orderId=req.params.order_id;
-    const order=await Order.find({user:req.user,_id:orderId});
+    const order=await Order.find({user:req.user,_id:orderId}).populate( {path: 'orderItems.product_details'});
     if (order){
         res.status(200).json({
             status: 'success',
