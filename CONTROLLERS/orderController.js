@@ -26,7 +26,7 @@ exports.updateMyOrder=catchAsync(async (req,res,next)=>{
     })
 })
 exports.getMyOrders=catchAsync(async (req,res,next)=>{
-    const orders = await Order.find({ user: req.user });
+    const orders = await Order.find({ user: req.user }).populate( {path: 'orderItems.product_details'});
     res.status(200).json({
         status:'success',
        data:{
