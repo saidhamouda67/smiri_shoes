@@ -94,7 +94,7 @@ exports.updateProductDetails=catchAsync(async (req,res,next)=>{
     })
 })
 
-
+exports.getProductDetail=factory.getOne(ProductDetails);
 exports.LinkDetails=catchAsync(async(req,res,next)=>{
     const id_product=req.params.id_prod;
     const id_details=req.params.id_details;
