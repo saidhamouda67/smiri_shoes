@@ -35,7 +35,7 @@ const orderSchema = new mongoose.Schema({
 
 
 orderSchema.pre(/^find/,function(next){
-  this.populate( {path: 'orderItems.product_details'})
+  this.populate( {path: 'orderItems.product_details'}).populate({path:"orderItems.product", select:"name images price "})
 
   next();
 })
