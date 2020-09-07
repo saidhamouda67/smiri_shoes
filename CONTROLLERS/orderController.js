@@ -9,10 +9,9 @@ async function asyncForEach(array, callback) {
       await callback(array[index], index, array);
     }
   }
-exports.getAllOrders=factory.getAll(Order,[
-     {path : 'user', select: 'email'},
-     {path: 'orderItems.product_details'}
-])
+exports.getAllOrders=factory.getAll(Order,
+     {path : 'user', select: 'email'}
+)
 exports.getOrder=factory.getOne(Order,'user')
 exports.updateMyOrder=catchAsync(async (req,res,next)=>{
     const updatedOrder=await Order.findByIdAndUpdate(req.params.order_id,req.body,{
@@ -26,7 +25,7 @@ exports.updateMyOrder=catchAsync(async (req,res,next)=>{
     })
 })
 exports.getMyOrders=catchAsync(async (req,res,next)=>{
-    const orders = await Order.find({ user: req.user }).populate( {path: 'orderItems.product_details'});
+    const orders = await Order.find({ user: req.user });
     res.status(200).json({
         status:'success',
        data:{
@@ -36,7 +35,7 @@ exports.getMyOrders=catchAsync(async (req,res,next)=>{
 })
 exports.getMyOrder=catchAsync(async(req,res,next)=>{
     const orderId=req.params.order_id;
-    const order=await Order.find({user:req.user,_id:orderId}).populate( {path: 'orderItems.product_details'});
+    const order=await Order.find({user:req.user,_id:orderId});
     if (order){
         res.status(200).json({
             status: 'success',

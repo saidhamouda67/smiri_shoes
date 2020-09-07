@@ -34,6 +34,11 @@ const orderSchema = new mongoose.Schema({
 });
 
 
+orderSchema.pre(/^find/,function(next){
+  this.populate( {path: 'orderItems.product_details'})
+
+  next();
+})
 orderSchema.pre('save',function(next){
   this.totalPrice=this.shippingPrice+this.itemsPrice
   next();
