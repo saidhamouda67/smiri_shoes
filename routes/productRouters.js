@@ -10,7 +10,7 @@ router.post('/Add-Product',authController.protect,authController.restrictTo('adm
 router.post('/Add-product-details/:id_prod',authController.protect,authController.restrictTo('admin','manager'),productController.AddProductDetails)
 router.get('/',productController.getAllProducts)
 router.get('/product-details',authController.protect,authController.restrictTo('admin','manager'),productController.getAllProductDetails)
-router.get('/product-details/:id',authController.protect,authController.restrictTo('admin','manager'),productController.getProductDetail)
+router.get('/product-details/:id',productController.getProductDetail)
 router.get('/:id',productController.getProduct)
 router.delete('/:id',authController.protect,authController.restrictTo('admin'),productController.DeleteProduct)
 router.patch('/:id',authController.protect,authController.restrictTo('admin','manager'),upload.array('images',4),productController.updateProduct);

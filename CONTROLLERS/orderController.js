@@ -9,9 +9,10 @@ async function asyncForEach(array, callback) {
       await callback(array[index], index, array);
     }
   }
-exports.getAllOrders=factory.getAll(Order,
-     {path: 'user',
-    select: 'email'})
+exports.getAllOrders=factory.getAll(Order,[
+     {path : 'user', select: 'email'},
+     {path: 'orderItems.product_details'}
+])
 exports.getOrder=factory.getOne(Order,'user')
 exports.updateMyOrder=catchAsync(async (req,res,next)=>{
     const updatedOrder=await Order.findByIdAndUpdate(req.params.order_id,req.body,{
