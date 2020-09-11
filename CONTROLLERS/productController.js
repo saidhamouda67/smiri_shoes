@@ -9,6 +9,7 @@ exports.getProduct=factory.getOne(Product,{path:'reviews'});
 
 exports.AddProduct=factory.createOne(Product)
 exports.DeleteProduct=factory.deleteOne(Product);
+exports.DeleteProductDetails=factory.deleteOne(ProductDetails);
 exports.AddProductDetails=catchAsync(async(req,res,next)=>{
     const product_id=String(req.params.id_prod);
     let product=Product.findById(product_id);

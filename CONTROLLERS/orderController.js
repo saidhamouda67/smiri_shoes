@@ -9,9 +9,7 @@ async function asyncForEach(array, callback) {
       await callback(array[index], index, array);
     }
   }
-exports.getAllOrders=factory.getAll(Order,
-     {path : 'user', select: 'email'}
-)
+exports.getAllOrders=factory.getAll(Order)
 exports.getOrder=factory.getOne(Order,'user')
 exports.updateMyOrder=catchAsync(async (req,res,next)=>{
     const updatedOrder=await Order.findByIdAndUpdate(req.params.order_id,req.body,{
@@ -48,18 +46,16 @@ exports.getMyOrder=catchAsync(async(req,res,next)=>{
     }
 })
     
-exports.createOrder=catchAsync(async(req,res,next)=>{
 
-        const orderItems=req.body.orderItems;
-        var  itemsPrice=0;
-        await asyncForEach(orderItems,async(el)=>{
-           
-            const product=await Product.findById(el.product)
-            itemsPrice+=(product.price*el.qty);
-
-        })
-        const order=await Order.create({
-        user: req.user,
+exports.createOrderWithoutAccount=catchAsync(async(req,res,next)=>{
+    const orderItems=req.body.orderItems;
+    var  itemsPrice=0;
+    await asyncForEach(orderItems,async(el)=>{
+        const product=await Product.findById(el.product)
+        itemsPrice+=(product.price*el.qty);
+    })
+   
+    const theOrderedOrder={
         orderItems:req.body.orderItems,
         itemsPrice,
         shipping:{
@@ -67,17 +63,55 @@ exports.createOrder=catchAsync(async(req,res,next)=>{
             city: req.body.city,
             postalCode: req.body.postalCode
         },
-
+        email:req.body.email ,
+        phoneNumber:req.body.phoneNumber
+    }
+  
+    const order=await Order.create(theOrderedOrder)
+if (order){
+    res.status(200).json({
+        status:"success",
+        data:{
+            order
+        }
     })
+}else return next(new AppError("there is an error somewhere in the order creation"))
+})
+exports.createOrderWithAccount=catchAsync(async(req,res,next)=>{
+        const orderItems=req.body.orderItems;
+        var  itemsPrice=0;
+        await asyncForEach(orderItems,async(el)=>{
+            const product=await Product.findById(el.product)
+            itemsPrice+=(product.price*el.qty);
+        })
+      
+        const theOrderedOrder={
+            user:req.user,
+            orderItems:req.body.orderItems,
+            itemsPrice,
+            email:req.user.email,
+            shipping:{
+                address: req.body.address,
+                city: req.body.city,
+                postalCode: req.body.postalCode
+            },
+            phoneNumber:req.user.phoneNumber
+        }
+        console.log(theOrderedOrder);
+      
+        const order=await Order.create(theOrderedOrder)
     if (order){
+
         res.status(200).json({
             status:"success",
             data:{
                 order
             }
         })
-    }
+    }else return next(new AppError("there is an error somewhere in the order creation"))
 })
+
+
 
 
 exports.deleteMyOrder=catchAsync(async (req,res,next)=>{
@@ -107,6 +141,23 @@ exports.deleteMyOrder=catchAsync(async (req,res,next)=>{
     }
 })
 
+exports.validateOrder=catchAsync(async (req,res,next)=>{
+    const order_id=req.params.order_id
+    const order=await Order.updateOne(
+        {_id:order_id},
+        {"$set":{"validated":true}}
+)
+        if (order){
+            res.status(200).json({
+                status:'success',
+                data:{
+                    order
+                }
+            })
+        }else return next(new AppError('Error while updating'))
+
+    })
+
 exports.confirmDeliveryAndPayment=catchAsync(async (req,res,next)=>{
     const order_id=req.params.order_id
 
@@ -132,4 +183,4 @@ exports.confirmDeliveryAndPayment=catchAsync(async (req,res,next)=>{
             })
         }else return next(new AppError('Error while updating'))
 
-    })
+})

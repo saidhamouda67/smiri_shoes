@@ -1,3 +1,4 @@
+const validatorLib=require('validator')
 const mongoose=require('mongoose');
 const shippingSchema = {
   address: { type: String, required: true },
@@ -30,12 +31,33 @@ const orderSchema = new mongoose.Schema({
     shippingPrice: { type: Number, default: 5 },
     totalPrice: { type: Number },
     isDeliveredAndPaid: { type: Boolean, default: false },
-    deliveredAndPaidAt: { type: Date }
-});
+    deliveredAndPaidAt: { type: Date },
+    phoneNumber:{
+      type:String,
+      minlength:8,
+      maxlength:8,
+      validate:{
+          validator:function(value){
+              var numbers = /^[0-9]+$/;
+              return value.match(numbers)
+          }
+      }
+    },
+    email:{
+      type:String,
+      unique:true,
+      lowercase:true,
+      validate:[validatorLib.isEmail,'respect email properties']
+  },
+     
+    validated:{ type: Boolean, default:false}
+
+  });
 
 
 orderSchema.pre(/^find/,function(next){
-  this.populate( {path: 'orderItems.product_details'}).populate({path:"orderItems.product", select:"name images price "})
+  this.populate( {path: 'orderItems.product_details'})
+  .populate({path:"orderItems.product", select:"name images price "})
 
   next();
 })

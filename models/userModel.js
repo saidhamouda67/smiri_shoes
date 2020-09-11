@@ -78,6 +78,9 @@ const userSchema=new mongoose.Schema({
     required: true },
 
 })
+
+userSchema.index({email: 1})
+
 userSchema.pre(/^find/,function(next){
     this.find({active : {$ne:false}});
     next();
