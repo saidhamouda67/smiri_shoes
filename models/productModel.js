@@ -8,7 +8,9 @@ const productSchema = new mongoose.Schema({
       enum:['Women','Men','Kids'],
     default:'Men'
   },
+
   price: {type: Number, required: true},
+  oldPrice: {type: Number, required: false},
   description: { type: String, required: true },
 
   ratingsAverage: {
