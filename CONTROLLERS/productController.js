@@ -24,9 +24,8 @@ exports.AddProductDetails=catchAsync(async(req,res,next)=>{
         product,
         size:req.body.size,
         countInStock:req.body.countInStock,
-        images:req.body.images,
-        color:req.body.color
-    })
+        images:req.body.images
+        })
     if (newProductDetails)
     res.status(200).json({
         status:'success',

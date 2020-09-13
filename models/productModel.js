@@ -1,6 +1,8 @@
 const mongoose=require('mongoose')
 
 const productSchema = new mongoose.Schema({
+
+  color: {type: String, required: true},
   name: { type: String, required: true , unique:true},
   brand: { type: String, required: true },
   category: {
@@ -48,9 +50,7 @@ product:{ type:mongoose.Schema.ObjectId,
         required:[true,'Product details must belong to product']
     },    
     size: { type: Number, required: true},
-    countInStock : {type: Number, required: true},
-    color: {type: String, required: true},
-
+    countInStock : {type: Number, required: true}
 
 })
 
