@@ -1,31 +1,32 @@
 const mongoose=require('mongoose')
+const validatorLib=require('validator')
 
 const claimSchema = new mongoose.Schema({
   title: { type: String, required: true , unique:true},
-  type: {
-      type: String,
-      enum:['produit','delais'],
-    default:'Men'
-  },
+
   description: { type: String, required: true },
-  user:{
-    type:mongoose.Schema.ObjectId,
-    ref:'User',
-    required:[true,'Claim must belong to a user']
+
+phoneNumber:{
+  type:String,
+  minlength:8,
+  maxlength:8,
+  validate:{
+      validator:function(value){
+          var numbers = /^[0-9]+$/;
+          return value.match(numbers)
+      }
+  }
+},
+email:{
+  type:String,
+  unique:true,
+  lowercase:true,
+  validate:[validatorLib.isEmail,'respect email properties']
 },
 });
 
 
-claimSchema.pre(/^findBy/,function(next){
-    
-   
-     
-    this.populate({
-        path:'user',
-        select:'email '
-    })
-    next();
-})
+
 const Claim = mongoose.model('Claim', claimSchema);
 
 
