@@ -7,7 +7,8 @@ process.on('uncaughtException',err=>{
 
 })
 dotenv.config({path : './conf.env'})
-const app=require('./app')
+const app=require('./app');
+const finalFunc = require('./utils/createAdminOneTime');
 
 // const DB=process.env.DATABASE_CONNECTION_LINK.replace('<password>','v8UtrgwRHQaaE8SP');
 const DB=process.env.LOCAL_DATABASE.replace('<password>','v8UtrgwRHQaaE8SP');
@@ -17,8 +18,9 @@ mongoose.connect(DB,{
     useCreateIndex:true,
     useFindAndModify:false,
     useUnifiedTopology:true
-}).then(connection=>{
+}).then(async (connection)=>{
 console.log('database connected successfully')
+await finalFunc()
 })
 
 const port=process.env.PORT;

@@ -53,7 +53,6 @@ app.use((req,res,next)=>{
     
     next();
 }) 
-
  
 app.use('/uploads',express.static('uploads'))
 
@@ -62,6 +61,7 @@ app.use('/uploads',express.static('uploads'))
  app.use('/api/v1/orders',orderRouter);
  app.use('/api/v1/products',productRouter);
  app.use('/api/v1/claims',claimRouter);
+ 
  app.all('*',(req,res,next)=>{
 
    

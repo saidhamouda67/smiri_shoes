@@ -11,6 +11,7 @@ router.post('/Add-product-details/:id_prod',authController.protect,authControlle
 router.get('/',productController.getAllProducts)
 router.get('/product-details',authController.protect,authController.restrictTo('admin','manager'),productController.getAllProductDetails)
 router.get('/product-details/:id',productController.getProductDetail)
+router.patch('/product-details/:id',authController.protect,authController.restrictTo('admin'),productController.updateProductDetails)
 router.delete('/product-details/:id',productController.DeleteProductDetails)
 router.get('/:id',productController.getProduct)
 router.delete('/:id',authController.protect,authController.restrictTo('admin'),productController.DeleteProduct)
