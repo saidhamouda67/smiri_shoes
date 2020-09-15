@@ -36,7 +36,6 @@ const userSchema=new mongoose.Schema({
             }
         }
     },
-    photo:String,
     password:{
         type:String,
         required:[true,'please it is required'],
