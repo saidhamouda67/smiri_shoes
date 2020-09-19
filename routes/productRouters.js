@@ -16,7 +16,7 @@ router.delete('/product-details/:id',productController.DeleteProductDetails)
 router.get('/:id',productController.getProduct)
 router.delete('/:id',authController.protect,authController.restrictTo('admin'),productController.DeleteProduct)
 router.patch('/:id',authController.protect,authController.restrictTo('admin','manager'),upload.array('images',4),productController.updateProduct);
-router.delete('/related-details/:id_prod',authController.protect,authController.restrictTo('admin'),productController.DeleteRelatedDetails)
+router.delete('/related-details/:id_prod',productController.DeleteRelatedDetails)
 router.get('/related-details/:id_prod',authController.protect,authController.restrictTo('admin'),productController.getRelatedDetails)
 router.patch('/link/:id_details/:id_prod',authController.protect,authController.restrictTo('admin'),productController.LinkDetails)
 
