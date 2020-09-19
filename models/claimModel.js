@@ -16,12 +16,7 @@ phoneNumber:{
           return value.match(numbers)
       }
   }
-},
-email:{
-  type:String,
-  lowercase:true,
-  validate:[validatorLib.isEmail,'respect email properties']
-},
+}
 });
 
 
