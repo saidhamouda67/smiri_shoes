@@ -19,7 +19,6 @@ phoneNumber:{
 },
 email:{
   type:String,
-  unique:true,
   lowercase:true,
   validate:[validatorLib.isEmail,'respect email properties']
 },
