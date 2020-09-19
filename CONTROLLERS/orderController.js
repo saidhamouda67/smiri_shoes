@@ -68,6 +68,13 @@ exports.createOrderWithoutAccount=catchAsync(async(req,res,next)=>{
     }
   
     const order=await Order.create(theOrderedOrder)
+    
+    await asyncForEach(theOrderedOrder.orderItems,async(el)=>{
+        await  ProductDetails.updateOne(
+            {_id: el.product_details},
+            {$inc: { "countInStock" : - el.qty}}
+        )
+    })
 if (order){
     res.status(200).json({
         status:"success",
@@ -100,6 +107,13 @@ exports.createOrderWithAccount=catchAsync(async(req,res,next)=>{
         console.log(theOrderedOrder);
       
         const order=await Order.create(theOrderedOrder)
+
+        await asyncForEach(theOrderedOrder.orderItems,async(el)=>{
+            await  ProductDetails.updateOne(
+                {_id: el.product_details},
+                {$inc: { "countInStock" : - el.qty}}
+            )
+        })
     if (order){
 
         res.status(200).json({
@@ -114,31 +128,22 @@ exports.createOrderWithAccount=catchAsync(async(req,res,next)=>{
 
 
 
-exports.deleteMyOrder=catchAsync(async (req,res,next)=>{
+exports.cancelOrder=catchAsync(async (req,res,next)=>{
     const order_id=req.params.order_id;
-    const user=req.user;
-    const order=await Order.findOne({
-        _id:order_id,
-        user
+    const order=await Order.findById(order_id)
+    await Order.updateOne({_id:order_id}, {
+        "$set":{"canceled":true}
     })
-    
-    if (order){
-        if (!order.isDeliveredAndPaid){
-       const result= await Order.findByIdAndDelete(order_id)
-       if (result){
-           res.status(200).json({
-               status: 'sucess',
-               message: 'order canceled and deleted'
-           })
-       }else {
-           return next(new AppError('error while deleting'))
-       }
-    }else {
-        return next(new AppError('order already delivered and paid so cannot be deleted or canceled'))
-    }
-    }else{
-        return next(new AppError('order not found'))
-    }
+    await asyncForEach(order.orderItems,async(el)=>{
+        await  ProductDetails.updateOne(
+            {_id: el.product_details},
+            {$inc: { "countInStock" :  el.qty}}
+        )
+    })
+    res.status(200).json({
+        status:'success',
+        message:'commande annulée'
+    })
 })
 
 exports.validateOrder=catchAsync(async (req,res,next)=>{
@@ -160,16 +165,7 @@ exports.validateOrder=catchAsync(async (req,res,next)=>{
 
 exports.confirmDeliveryAndPayment=catchAsync(async (req,res,next)=>{
     const order_id=req.params.order_id
-
-    const theOrder=await Order.findById(order_id)
-    const orderItems=theOrder.orderItems
-
-    await asyncForEach(orderItems,async(el)=>{
-        await  ProductDetails.updateOne(
-            {_id: el.product_details},
-            {$inc: { "countInStock" : - el.qty}}
-        )
-    })
+    
     const order=await Order.updateOne(
         {_id:order_id},
         {"$set":{"isDeliveredAndPaid":true,"deliveredAndPaidAt": Date.now()}}
@@ -184,3 +180,4 @@ exports.confirmDeliveryAndPayment=catchAsync(async (req,res,next)=>{
         }else return next(new AppError('Error while updating'))
 
 })
+

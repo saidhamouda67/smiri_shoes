@@ -2,6 +2,7 @@ const express=require('express');
 const router=express.Router();
 const authController=require('./../CONTROLLERS/authController')
 const userController=require('./../CONTROLLERS/userController')
+const adminController=require('./../CONTROLLERS/adminController')
 const {getAllUsers,getUser,createUser,deleteUser,updateUser}=require('../CONTROLLERS/userController')
 router.post('/signup',authController.signup)
 router.post('/login',authController.login)
@@ -17,7 +18,7 @@ router.patch('/affect-role-to-user',authController.protect,authController.restri
 router.get('/me',authController.protect, userController.getMe,userController.getUser)
 router.route('/')
 .get(authController.protect,authController.restrictTo('admin','manager'),getAllUsers);
-
+router.get('/get-all-data-count',authController.protect,authController.restrictTo('admin'),adminController.getAllData)
 router.route('/:id')
 .get(authController.protect,authController.restrictTo('admin','manager'),getUser)
 .patch(authController.protect,authController.restrictTo('admin'),userController.affectRoleToUser)

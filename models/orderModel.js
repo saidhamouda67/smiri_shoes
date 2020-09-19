@@ -50,7 +50,8 @@ const orderSchema = new mongoose.Schema({
       validate:[validatorLib.isEmail,'respect email properties']
   },
      
-    validated:{ type: Boolean, default:false}
+    validated:{ type: Boolean, default:false},
+    canceled: {type:Boolean, default:false}
 
   });
 
