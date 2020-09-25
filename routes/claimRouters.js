@@ -10,6 +10,6 @@ router.route('/')
 router.route('/:id')
 .get(claimController.getClaim)
 
-
+router.patch('/handle-claim/:id',authController.protect,authController.restrictTo('admin','manager'),claimController.handleClaim)
 
 module.exports=router;

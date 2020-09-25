@@ -15,7 +15,17 @@ exports.createClaim=factory.createOne(Claim);
 
 
 exports.handleClaim=catchAsync(async(req,res,next)=>{
+    try{
     const claim=await Claim.updateOne({_id:req.params.id}, {
         "$set":{"handled":true}
     })
+    res.status(200).json({
+        status:'success',
+        message:'handled'
+    })
+    }catch(error){
+        res.status(300).json({
+            message:error
+        })
+    }
 })
