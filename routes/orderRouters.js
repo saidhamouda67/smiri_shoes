@@ -10,7 +10,7 @@ router.post('/create-order-without-account',orderController.createOrderWithoutAc
 router.get('/my-orders',authController.protect,orderController.getMyOrders)
 router.get('/my-order/:order_id',authController.protect,orderController.getMyOrder)
 router.get('/',authController.protect,authController.restrictTo('admin','manager'),orderController.getAllOrders)
-router.get('/:order_id',authController.protect,authController.restrictTo('admin','manager'),orderController.getOrder)
+router.get('/:id',authController.protect,authController.restrictTo('admin','manager'),orderController.getOrder)
 router.patch('/update-my-order/:order_id',authController.protect,orderController.updateMyOrder)
 router.patch('/cancel-order/:order_id',authController.protect,authController.restrictTo('admin','manager'),orderController.cancelOrder)
 router.get('/get-shipping-price',orderController.getShippingPrice)

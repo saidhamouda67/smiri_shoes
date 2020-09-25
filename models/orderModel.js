@@ -51,8 +51,13 @@ const orderSchema = new mongoose.Schema({
   },
      
     validated:{ type: Boolean, default:false},
-    canceled: {type:Boolean, default:false}
-
+    canceled: {type:Boolean, default:false},
+    name:{
+      type:String,
+      required:false,
+      unique:false,
+      
+    }
   });
 
 

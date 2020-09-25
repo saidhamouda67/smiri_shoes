@@ -77,7 +77,8 @@ exports.createOrderWithoutAccount=catchAsync(async(req,res,next)=>{
             postalCode: req.body.postalCode
         },
         email:req.body.email ,
-        phoneNumber:req.body.phoneNumber
+        phoneNumber:req.body.phoneNumber,
+        name:req.body.name
     }
   
     const order=await Order.create(theOrderedOrder)
