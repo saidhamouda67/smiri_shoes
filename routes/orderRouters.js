@@ -13,7 +13,8 @@ router.get('/',authController.protect,authController.restrictTo('admin','manager
 router.get('/:order_id',authController.protect,authController.restrictTo('admin','manager'),orderController.getOrder)
 router.patch('/update-my-order/:order_id',authController.protect,orderController.updateMyOrder)
 router.patch('/cancel-order/:order_id',authController.protect,authController.restrictTo('admin','manager'),orderController.cancelOrder)
-
+router.get('/get-shipping-price',orderController.getShippingPrice)
+router.patch('/change-shipping-price',authController.protect,authController.restrictTo('admin','mangager'),orderController.updateShippingPrice)
  router.post('/confirm-payment-delivery/:order_id',authController.protect,authController.restrictTo('admin','manager'),orderController.confirmDeliveryAndPayment)
  router.post('/validate-order/:order_id',authController.protect,authController.restrictTo('admin','manager'),orderController.validateOrder)
 
