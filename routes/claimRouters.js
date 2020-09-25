@@ -4,7 +4,7 @@ const router=express.Router();
 const authController=require('../CONTROLLERS/authController')
 
 router.route('/')
-.get(authController.protect,authController.restrictTo('admin'),claimController.getAllClaims)
+.get(authController.protect,authController.restrictTo('admin','manager'),claimController.getAllClaims)
 .post(claimController.createClaim);
 
 router.route('/:id')
