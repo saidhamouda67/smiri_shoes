@@ -5,7 +5,23 @@ const catchAsync=require('./../utils/ErrorCatchAsync');
 const AppError=require('./../utils/appError');
 const Claim=require('./../models/claimModel')
 
+exports.getAdminsAndManager=catchAsync(async(req,res,next)=>{
+    try{
+    const list=await User.find({ $or:[ {'role':'manager'}, {'role':'admin'}] })
 
+    res.status(200).json({
+        status:'success',
+        data:list
+    })
+}catch(error){
+    res.status(300).json({
+        status:'error',
+        error
+    })
+}
+
+
+})
 
 exports.getAllData=catchAsync(async(req,res,next)=>{
     const countUsers=await User.countDocuments();
@@ -26,4 +42,5 @@ exports.getAllData=catchAsync(async(req,res,next)=>{
         data
     })
 })
+
 
