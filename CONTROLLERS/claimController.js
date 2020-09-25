@@ -14,3 +14,8 @@ exports.getAllClaims=factory.getAll(Claim);
 exports.createClaim=factory.createOne(Claim);
 
 
+exports.handleClaim=catchAsync(async(req,res,next)=>{
+    const claim=await Claim.updateOne({_id:req.params.id}, {
+        "$set":{"handled":true}
+    })
+})

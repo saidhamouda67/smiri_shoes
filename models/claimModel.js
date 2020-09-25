@@ -16,6 +16,10 @@ phoneNumber:{
           return value.match(numbers)
       }
   }
+},
+handled:{
+  type:Boolean,
+  default:false
 }
 });
 
