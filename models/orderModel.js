@@ -45,7 +45,7 @@ const orderSchema = new mongoose.Schema({
     },
     email:{
       type:String,
-      unique:true,
+      unique:false,
       lowercase:true,
       validate:[validatorLib.isEmail,'respect email properties']
   },

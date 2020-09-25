@@ -12,10 +12,10 @@ router.get('/my-order/:order_id',authController.protect,orderController.getMyOrd
 router.get('/',authController.protect,authController.restrictTo('admin','manager'),orderController.getAllOrders)
 router.get('/:order_id',authController.protect,authController.restrictTo('admin','manager'),orderController.getOrder)
 router.patch('/update-my-order/:order_id',authController.protect,orderController.updateMyOrder)
-router.patch('/cancel-order/:order_id',authController.protect,authController.restrictTo('admin'),orderController.cancelOrder)
+router.patch('/cancel-order/:order_id',authController.protect,authController.restrictTo('admin','manager'),orderController.cancelOrder)
 
- router.post('/confirm-payment-delivery/:order_id',authController.protect,authController.restrictTo('admin'),orderController.confirmDeliveryAndPayment)
- router.post('/validate-order/:order_id',authController.protect,authController.restrictTo('admin'),orderController.validateOrder)
+ router.post('/confirm-payment-delivery/:order_id',authController.protect,authController.restrictTo('admin','manager'),orderController.confirmDeliveryAndPayment)
+ router.post('/validate-order/:order_id',authController.protect,authController.restrictTo('admin','manager'),orderController.validateOrder)
 
 
 
