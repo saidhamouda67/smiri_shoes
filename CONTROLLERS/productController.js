@@ -79,7 +79,7 @@ exports.updateProduct=catchAsync(async (req,res,next)=>{
 exports.updateProductDetails=catchAsync(async (req,res,next)=>{
 
     //create error if user posts a product cuz products modified in the link route
-    if (req.body.product ){
+    if (req.body.product){
         return next(new AppError("go to link product details route to modify this"))
     }
     //3)update product

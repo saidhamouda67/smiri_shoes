@@ -28,7 +28,7 @@ const orderSchema = new mongoose.Schema({
     orderItems: [orderItemSchema],
     shipping: shippingSchema,
     itemsPrice: { type: Number },
-    shippingPrice: { type: Number, default: 5 },
+    shippingPrice: { type: Number, default: 7 },
     totalPrice: { type: Number },
     isDeliveredAndPaid: { type: Boolean, default: false },
     deliveredAndPaidAt: { type: Date },
@@ -63,9 +63,11 @@ orderSchema.pre(/^find/,function(next){
   next();
 })
 orderSchema.pre('save',function(next){
-  this.totalPrice=this.shippingPrice+this.itemsPrice
+  this.totalPrice=process.env.SHIPPING_PRICE+this.itemsPrice
   next();
 })
+
+
 
 const orderModel = mongoose.model("Order", orderSchema);
 

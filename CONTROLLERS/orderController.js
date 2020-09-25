@@ -4,6 +4,19 @@ const AppError=require('./../utils/appError');
 const factory=require('./handlerFactory')
 const Order=require('./../models/orderModel')
 const {Product,ProductDetails}=require('./../models/productModel')
+
+exports.getShippingPrice=()=>{
+    res.status(200).json({
+        price:process.env.SHIPPING_PRICE
+    })
+}
+
+exports.updateShippingPrice=(req,res,next)=>{
+process.env.SHIPPING_PRICE=req.body.price
+res.status(200).json({
+    message:'changed successfully'
+})
+}
 async function asyncForEach(array, callback) {
     for (let index = 0; index < array.length; index++) {
       await callback(array[index], index, array);
