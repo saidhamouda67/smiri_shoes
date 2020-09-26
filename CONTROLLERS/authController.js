@@ -136,8 +136,13 @@ exports.forgotPassword=catchAsync(async(req,res,next)=>{
 
 
     //3)send it to user's email
-    const resetURL=`${req.protocol}://${req.get('host')}/api/v1/users/reset-password/${resetToken}`
-const message=`Forgot your password!! submit a PATCH request with your new passsword and passwordConfirm to : ${resetURL}\n if you didnt forget your password, please ignore this email`;
+    const resetURL=`https://smirishoes.tn/reset-password/${resetToken}`                                      
+     //hne enti bch thezzou lpage html feha formulaire w yhot fih lmot de passe w yconfirmiih w te5ou mellien  elreset token 
+     //w taadih lelroute mte3 reset token taw tal9ah felusers routes bro w tkamml khedmtek menghadi
+    
+    
+    
+     const message=`Forgot your password!! submit a PATCH request with your new passsword and passwordConfirm to : ${resetURL}\n if you didnt forget your password, please ignore this email`;
 try {
     await emailSend({
         email:user.email,
@@ -153,6 +158,7 @@ try {
   user.passwordResetToken=undefined;
   user.passwordResetExpires=undefined;
   await user.save({validateBeforeSave:false});
+  console.log(error);
     return next(new AppError('there was an error sending the email, try again later',500));
 }
 })
