@@ -5,7 +5,7 @@ const factory=require('./handlerFactory')
 const Order=require('./../models/orderModel')
 const {Product,ProductDetails}=require('./../models/productModel')
 
-exports.getShippingPrice=()=>{
+exports.getShippingPrice=(req,res,next)=>{
     res.status(200).json({
         price:process.env.SHIPPING_PRICE
     })

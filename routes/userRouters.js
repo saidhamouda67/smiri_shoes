@@ -4,6 +4,7 @@ const authController=require('./../CONTROLLERS/authController')
 const userController=require('./../CONTROLLERS/userController')
 const adminController=require('./../CONTROLLERS/adminController')
 const {getAllUsers,getUser,createUser,deleteUser,updateUser}=require('../CONTROLLERS/userController')
+router.post('/create-user',authController.protect,authController.restrictTo('admin'),userController.createUser)
 router.post('/signup',authController.signup)
 router.post('/login',authController.login)
 router.get('/logout',authController.protect,authController.logout)
@@ -17,13 +18,14 @@ router.patch('/affect-role-to-user',authController.protect,authController.restri
 router.get('/me',authController.protect, userController.getMe,userController.getUser)
 router.route('/')
 .get(authController.protect,authController.restrictTo('admin'),getAllUsers);
-router.get('/get-all-data-count',authController.protect,authController.restrictTo('admin'),adminController.getAllData)
+router.get('/get-all-data-count',authController.protect,authController.restrictTo('admin','manager'),adminController.getAllData)
+router.get('/get-admins-managers',authController.protect,authController.restrictTo('admin','manager'),adminController.getAdminsAndManager)
+
 router.route('/:id')
 .get(authController.protect,authController.restrictTo('admin'),getUser)
 .patch(authController.protect,authController.restrictTo('admin'),userController.affectRoleToUser)
 .delete(authController.protect,authController.restrictTo('admin'),deleteUser)
 
-router.get('/get-admins-managers',authController.protect,authController.restrictTo('admin'),adminController.getAdminsAndManager)
 
 
 

@@ -68,7 +68,7 @@ orderSchema.pre(/^find/,function(next){
   next();
 })
 orderSchema.pre('save',function(next){
-  this.totalPrice=process.env.SHIPPING_PRICE+this.itemsPrice
+  this.totalPrice=parseInt(process.env.SHIPPING_PRICE)+this.itemsPrice
   next();
 })
 

@@ -17,12 +17,32 @@ const filterObj=(obj,...allowedFields)=>{
 exports.getAllUsers=factory.getAll(User);
 exports.getUser=factory.getOne(User);
 
-exports.createUser=(req,res)=>{
-    res.status(500).json({
-        status:'error',
-        message:'This route is not yed defined'
-    })
-}
+exports.createUser=catchAsync(async(req,res,next)=>{
+    try{
+    const newUser=await User.create({
+        name:req.body.name,
+        email:req.body.email,
+        password:req.body.password,
+        passwordConfirm:req.body.passwordConfirm,
+        address:req.body.address,
+        city:req.body.city,
+        postalCode:req.body.postalCode,
+        country:req.body.country,
+        phoneNumber:req.body.phoneNumber,
+        role:req.body.role
+        })
+
+        res.status(200).json({
+            status:'success',
+            message:'created user successfuly'
+        })
+    }catch(error){
+        res.status(200).json({
+            status:'error',
+            error
+        })
+    }
+})
 
 //do not update passwords with this
 exports.updateUser=factory.updateOne(User);
