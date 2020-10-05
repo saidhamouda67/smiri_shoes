@@ -61,7 +61,22 @@ app.use('/uploads',express.static('uploads'))
  app.use('/api/v1/orders',orderRouter);
  app.use('/api/v1/products',productRouter);
  app.use('/api/v1/claims',claimRouter);
- 
+ const router=express.Router();
+router.route('/image-smiri ').get(async (req,res,next)=>{
+    res.status(200).json({
+        image:process.env.SMIRI_IMAGE
+    })
+}).post(async(req,res,next)=>{
+    process.env.SMIRI_IMAGE=req.body.image
+    res.status(200).json({
+        status:"success",
+        image:process.env.SMIRI_IMAGE
+    })
+})
+
+
+app.use(router)
+
  app.all('*',(req,res,next)=>{
 
    
@@ -74,3 +89,6 @@ app.use('/uploads',express.static('uploads'))
  app.use(globalErrorHandler);
  module.exports=app;
         
+
+
+ 
