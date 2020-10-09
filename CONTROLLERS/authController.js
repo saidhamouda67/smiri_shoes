@@ -203,7 +203,7 @@ exports.updateMyPassword=catchAsync(async (req,res,next)=>{
     const candidatePassword=req.body.password
 //2)check if posted password is correct
     if(! await user.correctPassword(candidatePassword,user.password)){
-        return next(new AppError('this password is not correct',401))
+        return next(new AppError('this password is not correct',403))
     }
 
 //3)if so ,  update password
