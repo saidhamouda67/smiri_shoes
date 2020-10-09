@@ -7,6 +7,7 @@ const app=express();
 const userRouter=require('./routes/userRouters')
 const claimRouter=require('./routes/claimRouters')
 const productRouter=require('./routes/productRouters')
+const smiriImageRouter=require('./routes/smiriImageRouters')
 const orderRouter=require('./routes/orderRouters')
 const helmet=require('helmet');
 const mongoSanitize=require('express-mongo-sanitize');
@@ -61,21 +62,10 @@ app.use('/uploads',express.static('uploads'))
  app.use('/api/v1/orders',orderRouter);
  app.use('/api/v1/products',productRouter);
  app.use('/api/v1/claims',claimRouter);
- const router=express.Router();
-router.route('/image-smiri ').get(async (req,res,next)=>{
-    res.status(200).json({
-        image:process.env.SMIRI_IMAGE
-    })
-}).post(async(req,res,next)=>{
-    process.env.SMIRI_IMAGE=req.body.image
-    res.status(200).json({
-        status:"success",
-        image:process.env.SMIRI_IMAGE
-    })
-})
+ app.use('/api/v1/image-smiri',smiriImageRouter);
 
 
-app.use(router)
+
 
  app.all('*',(req,res,next)=>{
 
@@ -88,7 +78,3 @@ app.use(router)
 
  app.use(globalErrorHandler);
  module.exports=app;
-        
-
-
- 
