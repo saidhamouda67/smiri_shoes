@@ -19,7 +19,6 @@ app.use(bodyParser.json())
 
 
 
-
 app.use(helmet())
 
 if(process.env.NODE_ENV=='development'){
@@ -63,7 +62,6 @@ app.use('/uploads',express.static('uploads'))
  app.use('/api/v1/products',productRouter);
  app.use('/api/v1/claims',claimRouter);
  app.use('/api/v1/image-smiri',smiriImageRouter);
-
 
 
 

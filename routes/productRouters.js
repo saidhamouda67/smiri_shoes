@@ -19,7 +19,7 @@ router.patch('/:id',authController.protect,authController.restrictTo('admin','ma
 router.delete('/related-details/:id_prod',productController.DeleteRelatedDetails)
 router.get('/related-details/:id_prod',authController.protect,authController.restrictTo('admin','manager'),productController.getRelatedDetails)
 router.patch('/link/:id_details/:id_prod',authController.protect,authController.restrictTo('admin','manager'),productController.LinkDetails)
-
+    
 
 
 module.exports=router;
