@@ -6,7 +6,7 @@ const smiriModel = require('../models/smiriImageModel');
 router.route('').get(async (req,res,next)=>{
     const images=await smiriModel.find();
     
-    
+    console.log("")
     res.status(200).json({
         images:images[0]
     })
