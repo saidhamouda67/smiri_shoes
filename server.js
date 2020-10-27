@@ -31,7 +31,6 @@ const port=process.env.PORT;
 
 const server=http.listen(port,()=>{
     console.log(`runing on port ${port}`);
-    console.log(process.env.SMIRI_IMAGE)
 
     io.on('connection',(socket)=>{
             socket.on('notificationSend',(notifDetails)=>{

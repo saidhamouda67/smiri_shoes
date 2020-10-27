@@ -3,6 +3,7 @@ const router=express.Router();
 const upload=require('../utils/uploadImages')
 const smiriImageModel=require('../models/smiriImageModel');
 const smiriModel = require('../models/smiriImageModel');
+const fs=require('fs')
 router.route('').get(async (req,res,next)=>{
     const images=await smiriModel.find();
     
@@ -15,7 +16,19 @@ router.route('').get(async (req,res,next)=>{
    req.files.forEach(element=>{
        a.push(element.path);
    })
-  const k= await smiriImageModel.create({
+   const images=await smiriModel.find();
+   var lesImages=[];
+   lesImages.push(images[0].first_image)
+   lesImages.push(images[0].second_image)
+   lesImages.push(images[0].third_image)
+   lesImages.push(images[0].fourth_image)
+   lesImages.forEach(element => {
+    fs.unlink(element, (err) => {
+             
+        //file removed
+      })
+   });
+  const k= await smiriImageModel.updateOne({},{
        first_image:a[0],
        second_image:a[1],
        third_image:a[2],
