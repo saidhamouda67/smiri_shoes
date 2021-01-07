@@ -14,9 +14,10 @@ const mongoSanitize=require('express-mongo-sanitize');
 const xss=require('xss-clean')
 const cookieParser=require('cookie-parser');
 var bodyParser = require('body-parser')
+var cors = require('cors')
 
 app.use(bodyParser.json())
-
+app.use(cors);
 
 
 app.use(helmet())
