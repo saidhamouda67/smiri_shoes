@@ -14,8 +14,8 @@ const io=require('socket.io')(http);
 
 const finalFunc = require('./utils/createAdminOneTime');
 
-//     const DB=process.env.DATABASE_CONNECTION_LINK.replace('<password>','v8UtrgwRHQaaE8SP');
-const DB=process.env.LOCAL_DATABASE.replace('<password>','v8UtrgwRHQaaE8SP');
+     const DB=process.env.DATABASE_CONNECTION_LINK.replace('<password>','v8UtrgwRHQaaE8SP');
+//const DB=process.env.LOCAL_DATABASE.replace('<password>','v8UtrgwRHQaaE8SP');
 
 mongoose.connect(DB,{
     useNewUrlParser:true,

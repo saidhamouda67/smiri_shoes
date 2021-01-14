@@ -17,7 +17,9 @@ router.route('').get(async (req,res,next)=>{
        a.push(element.path);
    })
    const images=await smiriModel.find();
+   if(images[0]){
    var lesImages=[];
+   
    lesImages.push(images[0].first_image)
    lesImages.push(images[0].second_image)
    lesImages.push(images[0].third_image)
@@ -28,7 +30,9 @@ router.route('').get(async (req,res,next)=>{
         //file removed
       })
    });
-  const k= await smiriImageModel.updateOne({},{
+}
+console.log(a);
+  const k= await smiriImageModel.findByIdAndUpdate("600084364d24b1010cbe317e",{
        first_image:a[0],
        second_image:a[1],
        third_image:a[2],

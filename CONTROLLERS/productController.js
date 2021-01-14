@@ -3,7 +3,7 @@ const catchAsync=require('./../utils/ErrorCatchAsync');
 const AppError=require('./../utils/appError');
 const factory=require('./handlerFactory')
 const {Product,ProductDetails}=require('./../models/productModel')
-
+const fs=require('fs')
 exports.getAllProducts=factory.getAll(Product);
 exports.getProduct=factory.getOne(Product,{path:'reviews'});
 
@@ -56,15 +56,23 @@ res.status(200).json({
 exports.updateProduct=catchAsync(async (req,res,next)=>{
 
     //1)create error if user posts a password data
-    console.log(req.body);
-    console.log(req.params.id)
-    console.log(req.files.length);
+  
     if(req.files.length>0){
         let images=[]
         req.files.forEach(element => {
             images.push(element.path)
         });
-        req.body.images=images;89945623-1
+        req.body.images=images;
+
+        const theProduct=await Product.findById(req.params.id);
+        theProduct.images.forEach(element => {
+            console.log(element);
+            fs.unlink(element, (err) => {
+                     
+                //file removed
+              })
+           });
+        
     }
     //3)update product
     const updatedProduct=await Product.findByIdAndUpdate(req.params.id,req.body,{

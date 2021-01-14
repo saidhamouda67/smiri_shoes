@@ -1,3 +1,4 @@
+const smiriModel = require('../models/smiriImageModel')
 const User = require('../models/userModel')
 const catchAsync=require('./ErrorCatchAsync')
 const createAdmin=catchAsync(async ()=>{
@@ -19,6 +20,18 @@ const createAdmin=catchAsync(async ()=>{
 const finalFunc=catchAsync(async()=>{
     const theUser=await User.findOne({email:process.env.EMAIL_SMIRI})
     if(theUser)  console.log("already exist"); else  await createAdmin() 
+
+
+
+    const smiri_image=await smiriModel.create({
+        first_image:"",
+        second_image:"",
+        third_image:"",
+        fourth_image:""
+    })
+    if(smiri_image){
+        console.log("smiri_image created");
+    }
     
 })
 module.exports=finalFunc;

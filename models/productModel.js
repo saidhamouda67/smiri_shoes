@@ -27,7 +27,7 @@ ratingsQuantity:{
     default:0
 },
 images:[String],
-  createdAt:{
+createdAt:{
     type:Date,
     default:Date.now(),
     select: false 
